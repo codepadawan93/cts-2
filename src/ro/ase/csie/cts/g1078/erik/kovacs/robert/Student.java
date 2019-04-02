@@ -77,9 +77,26 @@ public class Student {
 		this.medie = m / this.nrDisciplinePromovate();
 	}
 	
-	public int notaFrecventaMaxima(){
+	public int notaFrecventaMaxima() throws StudentException{
+		if(note.size() == 0) throw new StudentException("Cannot find max frequency if there are no marks");
+		// Iterate through the collection
 		int nota = 0;
-		//corpul metodei pentru returnarea notei de frecventa maxima
+		int maxFreq = 0;
+		for(int i = 0; i < note.size(); i++) {
+			int n = note.get(i);
+			int freq = 0;
+			for(int j = 0; j < note.size(); j++) {
+				int _n = note.get(j);
+				if(_n == n) {
+					freq++;
+				}
+			}
+			// If current mark has greater frequency than selected mark, it becomes next selected mark
+			if(freq > maxFreq) {
+				maxFreq = freq;
+				nota = n;
+			}
+		}
 		return nota;
 	}
 	

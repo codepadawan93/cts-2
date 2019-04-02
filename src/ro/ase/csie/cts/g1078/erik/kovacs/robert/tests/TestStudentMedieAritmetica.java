@@ -35,9 +35,7 @@ public class TestStudentMedieAritmetica {
 		}
 		student.medieAritmetica();
 		float mean = student.getMedie();
-		if(mean >= Student.LOWER_LIMIT || mean <= Student.UPPER_LIMIT) {
-			equals(true);
-		}
+		assertTrue(mean >= Student.LOWER_LIMIT || mean <= Student.UPPER_LIMIT);
 	}
 	
 	// If there is only one mark, then the mean should be that mark

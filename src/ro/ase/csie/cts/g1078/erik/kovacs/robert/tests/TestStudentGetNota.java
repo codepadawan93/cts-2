@@ -1,10 +1,11 @@
 package ro.ase.csie.cts.g1078.erik.kovacs.robert.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
 import org.junit.After;
+import org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,6 @@ public class TestStudentGetNota {
 	@After
 	public void tearDown() throws Exception {
 	}
-
 
 	// Test exception
 	@Test(expected = StudentException.class)
