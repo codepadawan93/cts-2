@@ -14,12 +14,12 @@ public class Student {
 	
 	public Student(String nume) {
 		this.nume = nume;
-		note = new ArrayList();
+		note = new ArrayList<Integer>();
 	}
 
 	public Student(String nume, ArrayList<Integer> note) {
 		this.nume = nume;
-		this.note = new ArrayList();
+		this.note = new ArrayList<Integer>();
 		for(Integer n: note)
 			this.note.add(n);
 	}
@@ -36,7 +36,7 @@ public class Student {
 	}
 	
 	public int getNota(int i) throws StudentException{
-		if(i < 0 || i > note.size()) {
+		if(i < 0 || i >= note.size()) {
 			throw new StudentException("Impossible to retrieve mark as it does not exist");
 		}
 		return note.get(i);
@@ -63,14 +63,15 @@ public class Student {
 	// This should really just return the value... seems to me medie is no
 	// longer used after this inside the class so would spare one method call
 	public void medieAritmetica() throws StudentException{
-		float nrDisciplinePromovate = this.nrDisciplinePromovate();
+		int nrDisciplinePromovate = this.nrDisciplinePromovate();
 		if(note.size() == 0) {
 			throw new StudentException("You cannot get the mean of an empty sequence");
 		}
 		float m = 0;
-		for(Integer n: note)
+		for(Integer n: note) {
 			if(n >= 5)
 				m += n;
+		}
 		if(nrDisciplinePromovate == 0) {
 			throw new StudentException("You cannot get the mean since no subjects were passed by student");
 		}
@@ -95,6 +96,9 @@ public class Student {
 			if(freq > maxFreq) {
 				maxFreq = freq;
 				nota = n;
+			} else if (freq == maxFreq) {
+				// If equals, remember the greater of the two
+				nota = nota > n ? nota : n;
 			}
 		}
 		return nota;

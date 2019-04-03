@@ -48,7 +48,7 @@ public class TestStudentAddNota {
 	public void addsMarksProperly() throws StudentException {
 		final int LEN = 10;
 		for(int i = 0; i < LEN; i++) {
-			student.addNota(new Random().nextInt(11)+1);
+			student.addNota(new Random().nextInt(10)+1);
 		}
 		for(int i = 0; i < LEN; i++) {
 			student.getNota(i);

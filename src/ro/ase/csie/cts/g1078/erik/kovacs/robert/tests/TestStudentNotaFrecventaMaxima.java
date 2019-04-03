@@ -36,7 +36,7 @@ public class TestStudentNotaFrecventaMaxima {
 	public void crossCheckTest() throws StudentException {
 		final int TWO_LEN = 10;
 		final int TWO = 2;
-		Student student2 = new Student(name + "2");
+		final Student student2 = new Student(name + "2");
 		for(int i = 0; i < TWO_LEN; i++) {
 			student.addNota(TWO);
 			student2.addNota(TWO);
@@ -57,7 +57,7 @@ public class TestStudentNotaFrecventaMaxima {
 		final int FIVE_LEN = 2;
 		final int NINE_LEN = 10;
 		
-		for(int i = 0; i < FIVE_LEN; i++) { // good that primitive array HAS the length property exposed publicly
+		for(int i = 0; i < FIVE_LEN; i++) {
 			student.addNota(FIVE);
 		}
 		for(int i = 0; i < NINE_LEN; i++) {
@@ -72,7 +72,7 @@ public class TestStudentNotaFrecventaMaxima {
 	public void modeIsInRange() throws StudentException {
 		final int LEN = 10;
 		for(int i = 0; i < LEN; i++) {
-			student.addNota(new Random().nextInt(11)+1);
+			student.addNota(new Random().nextInt(10)+1);
 		}
 		float mean = student.notaFrecventaMaxima();
 		assertTrue(mean >= Student.LOWER_LIMIT || mean <= Student.UPPER_LIMIT);
@@ -86,5 +86,57 @@ public class TestStudentNotaFrecventaMaxima {
 		float mean = student.notaFrecventaMaxima();
 		assertEquals((float)MARK, mean, 0);
 	}
-
+	
+	// test i order matters
+	@Test
+	public void orderDoesNotMatter() throws StudentException {
+		final int[] MARKS1 = {5, 5, 6, 8};
+		final int[] MARKS2 = {6, 8, 5, 5};
+		final int[] MARKS3 = {5, 8, 6, 5};
+		
+		final Student student2 = new Student(name + "2");
+		final Student student3 = new Student(name + "3");
+		
+		for(int i = 0; i < MARKS1.length; i++) {
+			student.addNota(MARKS1[i]);
+			student2.addNota(MARKS2[i]);
+			student3.addNota(MARKS3[i]);
+		}
+		
+		float mode1 = student.notaFrecventaMaxima();
+		float mode2 = student2.notaFrecventaMaxima();
+		float mode3 = student3.notaFrecventaMaxima();
+		
+		// I hope you trust transitivity of identity operator :P
+		assertTrue((mode1 == mode2) && (mode2 == mode3));
+	}
+	
+	// Test if returns the greater of two numbers with equal frequency
+	@Test
+	public void returnsGreaterIfSameFrequencies() throws StudentException {
+		final int GREATER = 8;
+		student.addNota(5);
+		student.addNota(GREATER);
+		final float mode = student.notaFrecventaMaxima();
+		assertEquals(GREATER, mode, 0);
+	}
+	
+	// Takes less than 20 millis for 10k marks
+	@Test
+	public void takesLessThan200Millis() throws StudentException {
+		final int LEN = 10000;
+		final int MAX_TIME_MILLIS = 200;
+		for(int i = 0; i < LEN; i++) {
+			student.addNota(new Random().nextInt(10)+1);
+		}
+		
+		long start = System.currentTimeMillis();
+		student.notaFrecventaMaxima();
+		long delta = System.currentTimeMillis() - start;
+		if(delta < MAX_TIME_MILLIS) {
+			assertTrue(true);
+		}else {
+			fail("Took more than 200 millis");
+		}
+	}
 }
